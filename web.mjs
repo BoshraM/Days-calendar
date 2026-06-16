@@ -1,11 +1,54 @@
-// This is a placeholder file which shows how you can access functions and data defined in other files.
-// It can be loaded into index.html.
-// Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
-// You can't open the index.html file using a file:// URL.
+import { formatMonthYear } from "./common.mjs";
 
-import { getGreeting } from "./common.mjs";
-import daysData from "./days.json" with { type: "json" };
+let currentDate = new Date();
 
-window.onload = function() {
-    document.querySelector("body").innerText = `${getGreeting()} - there are ${daysData.length} known days`;
+function updateUI() {
+  document.getElementById("month-year").textContent =
+    formatMonthYear(currentDate);
+
+  renderCalendar();
 }
+
+function previousMonth() {
+  currentDate.setMonth(currentDate.getMonth() - 1);
+  updateUI();
+}
+
+function nextMonth() {
+  currentDate.setMonth(currentDate.getMonth() + 1);
+  updateUI();
+}
+
+function renderCalendar() {
+  const calendar = document.getElementById("calendar");
+
+  calendar.innerHTML = "";
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const firstDay = new Date(year, month, 1).getDay();
+
+  for (let i = 0; i < firstDay; i++) {
+    const emptyCell = document.createElement("div");
+    calendar.appendChild(emptyCell);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const cell = document.createElement("div");
+
+    cell.classList.add("day");
+    cell.textContent = day;
+
+    calendar.appendChild(cell);
+  }
+}
+
+window.onload = () => {
+  document.getElementById("prev-btn").onclick = previousMonth;
+  document.getElementById("next-btn").onclick = nextMonth;
+
+  updateUI();
+};
