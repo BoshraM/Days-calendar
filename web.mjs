@@ -5,6 +5,11 @@ let currentDate = new Date();
 function updateUI() {
   document.getElementById("month-year").textContent =
     formatMonthYear(currentDate);
+    document.getElementById("month-select").value =
+    currentDate.getMonth();
+
+    document.getElementById("year-select").value =
+    currentDate.getFullYear();
 
   renderCalendar();
 }
@@ -16,6 +21,45 @@ function previousMonth() {
 
 function nextMonth() {
   currentDate.setMonth(currentDate.getMonth() + 1);
+  updateUI();
+}
+
+function populateSelectors() {
+  const monthSelect = document.getElementById("month-select");
+  const yearSelect = document.getElementById("year-select");
+
+  const months = [
+    "January", "February", "March", "April",
+    "May", "June", "July", "August",
+    "September", "October", "November", "December"
+  ];
+
+  months.forEach((month, index) => {
+    const option = document.createElement("option");
+    option.value = index;
+    option.textContent = month;
+    monthSelect.appendChild(option);
+  });
+
+  for (let year = 1900; year <= 2100; year++) {
+    const option = document.createElement("option");
+    option.value = year;
+    option.textContent = year;
+    yearSelect.appendChild(option);
+  }
+}
+
+function jumpToDate() {
+  const month = Number(
+    document.getElementById("month-select").value
+  );
+
+  const year = Number(
+    document.getElementById("year-select").value
+  );
+
+  currentDate = new Date(year, month, 1);
+
   updateUI();
 }
 
@@ -49,6 +93,13 @@ function renderCalendar() {
 window.onload = () => {
   document.getElementById("prev-btn").onclick = previousMonth;
   document.getElementById("next-btn").onclick = nextMonth;
+  populateSelectors();
+
+	document.getElementById("month-select")
+	.addEventListener("change", jumpToDate);
+
+	document.getElementById("year-select")
+	.addEventListener("change", jumpToDate);
 
   updateUI();
 };
