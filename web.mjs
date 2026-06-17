@@ -1,4 +1,4 @@
-import { formatMonthYear } from "./common.mjs";
+import { formatMonthYear, getOccurrenceDate } from "./common.mjs";
 
 let currentDate = new Date();
 let commemorativeDays = [];
@@ -13,11 +13,9 @@ fetch("./days.json")
 function updateUI() {
   document.getElementById("month-year").textContent =
     formatMonthYear(currentDate);
-    document.getElementById("month-select").value =
-    currentDate.getMonth();
+  document.getElementById("month-select").value = currentDate.getMonth();
 
-    document.getElementById("year-select").value =
-    currentDate.getFullYear();
+  document.getElementById("year-select").value = currentDate.getFullYear();
 
   renderCalendar();
 }
@@ -37,9 +35,18 @@ function populateSelectors() {
   const yearSelect = document.getElementById("year-select");
 
   const months = [
-    "January", "February", "March", "April",
-    "May", "June", "July", "August",
-    "September", "October", "November", "December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   months.forEach((month, index) => {
@@ -58,13 +65,9 @@ function populateSelectors() {
 }
 
 function jumpToDate() {
-  const month = Number(
-    document.getElementById("month-select").value
-  );
+  const month = Number(document.getElementById("month-select").value);
 
-  const year = Number(
-    document.getElementById("year-select").value
-  );
+  const year = Number(document.getElementById("year-select").value);
 
   currentDate = new Date(year, month, 1);
 
@@ -91,33 +94,12 @@ function renderCalendar() {
   for (const item of commemorativeDays) {
     if (item.monthName !== monthName) continue;
 
-    const weekdays = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-
-    const targetDay = weekdays.indexOf(item.dayName);
-
-    const matches = [];
-
-    for (let d = 1; d <= daysInMonth; d++) {
-      if (new Date(year, month, d).getDay() === targetDay) {
-        matches.push(d);
-      }
-    }
-
-    let eventDate;
-
-    if (item.occurrence === "first") eventDate = matches[0];
-    if (item.occurrence === "second") eventDate = matches[1];
-    if (item.occurrence === "third") eventDate = matches[2];
-    if (item.occurrence === "last") eventDate = matches[matches.length - 1];
-
+    const eventDate = getOccurrenceDate(
+      year,
+      month,
+      item.dayName,
+      item.occurrence,
+    );
     monthEvents.push({
       date: eventDate,
       name: item.name,
@@ -154,11 +136,11 @@ window.onload = () => {
   document.getElementById("next-btn").onclick = nextMonth;
   populateSelectors();
 
-	document.getElementById("month-select")
-	.addEventListener("change", jumpToDate);
+  document
+    .getElementById("month-select")
+    .addEventListener("change", jumpToDate);
 
-	document.getElementById("year-select")
-	.addEventListener("change", jumpToDate);
+  document.getElementById("year-select").addEventListener("change", jumpToDate);
 
   updateUI();
 };
