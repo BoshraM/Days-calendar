@@ -1,6 +1,14 @@
 import { formatMonthYear } from "./common.mjs";
 
 let currentDate = new Date();
+let commemorativeDays = [];
+
+fetch("./days.json")
+  .then((response) => response.json())
+  .then((data) => {
+    commemorativeDays = data;
+    updateUI();
+  });
 
 function updateUI() {
   document.getElementById("month-year").textContent =
@@ -30,6 +38,47 @@ function renderCalendar() {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   const firstDay = new Date(year, month, 1).getDay();
+  const monthName = currentDate.toLocaleString("default", {
+    month: "long",
+  });
+
+  const monthEvents = [];
+
+  for (const item of commemorativeDays) {
+    if (item.monthName !== monthName) continue;
+
+    const weekdays = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+
+    const targetDay = weekdays.indexOf(item.dayName);
+
+    const matches = [];
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      if (new Date(year, month, d).getDay() === targetDay) {
+        matches.push(d);
+      }
+    }
+
+    let eventDate;
+
+    if (item.occurrence === "first") eventDate = matches[0];
+    if (item.occurrence === "second") eventDate = matches[1];
+    if (item.occurrence === "third") eventDate = matches[2];
+    if (item.occurrence === "last") eventDate = matches[matches.length - 1];
+
+    monthEvents.push({
+      date: eventDate,
+      name: item.name,
+    });
+  }
 
   for (let i = 0; i < firstDay; i++) {
     const emptyCell = document.createElement("div");
@@ -40,7 +89,17 @@ function renderCalendar() {
     const cell = document.createElement("div");
 
     cell.classList.add("day");
-    cell.textContent = day;
+
+    const event = monthEvents.find((e) => e.date === day);
+
+    if (event) {
+      cell.innerHTML = `
+      <div>${day}</div>
+      <div>${event.name}</div>
+    `;
+    } else {
+      cell.textContent = day;
+    }
 
     calendar.appendChild(cell);
   }
