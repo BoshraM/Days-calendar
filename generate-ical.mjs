@@ -1,5 +1,3 @@
-// This is a placeholder file which shows how you can access functions and data defined in other files. You can delete the contents of the file once you have understood how it works.
-// It can be run with `node`.
 import fs from "fs";
 import { getOccurrenceDate } from "./common.mjs";
 import daysData from "./days.json" with { type: "json" };
@@ -50,9 +48,18 @@ for (let year = 2020; year <= 2030; year++) {
 
     const dateStr = formatDate(year, monthIndex, day);
 
+    const nextDate = new Date(year, monthIndex, day);
+    nextDate.setDate(nextDate.getDate() + 1);
+
+    const endDateStr = formatDate(
+      nextDate.getFullYear(),
+      nextDate.getMonth(),
+      nextDate.getDate(),
+    );
+
     ics += "BEGIN:VEVENT\n";
     ics += `DTSTART;VALUE=DATE:${dateStr}\n`;
-    ics += `DTEND;VALUE=DATE:${dateStr}\n`;
+    ics += `DTEND;VALUE=DATE:${endDateStr}\n`;
     ics += `SUMMARY:${item.name}\n`;
     ics += "END:VEVENT\n";
   }
