@@ -1,35 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Days Calendar</title>
     <script type="module" src="common.mjs"></script>
     <script type="module" src="web.mjs"></script>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
+    <main>
 
-    <h1 id="month-year"></h1>
-    <div>
-      <select id="month-select"></select>
-      <select id="year-select"></select>
-    </div>
-    <div>
-      <button id="prev-btn">Previous</button>
-      <button id="next-btn">Next</button>
-    </div>
+      <h1 id="month-year"></h1>
+      
+      <div>
+        <label for="month-select">Month</label>
+        <select id="month-select"></select>
 
-    <div id="weekdays">
-      <div>Sun</div>
-      <div>Mon</div>
-      <div>Tue</div>
-      <div>Wed</div>
-      <div>Thu</div>
-      <div>Fri</div>
-      <div>Sat</div>
-    </div>
+        <label for="year-select">Year</label>
+        <select id="year-select"></select>
+      </div>
 
-    <div id="calendar"></div>
+      <div>
+        <button id="prev-btn">Previous</button>
+        <button id="next-btn">Next</button>
+      </div>
 
+      <div id="weekdays">
+        <div>Sun</div>
+        <div>Mon</div>
+        <div>Tue</div>
+        <div>Wed</div>
+        <div>Thu</div>
+        <div>Fri</div>
+        <div>Sat</div>
+      </div>
+
+      <div id="calendar"></div>
+
+    </main>
   </body>
 </html>
