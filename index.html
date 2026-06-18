@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Days Calendar</title>
-    <script type="module" src="common.mjs"></script>
     <script type="module" src="web.mjs"></script>
     <link rel="stylesheet" href="styles.css">
   </head>
@@ -13,15 +12,18 @@
 
       <h1 id="month-year"></h1>
       
-      <div>
-        <label for="month-select">Month</label>
-        <select id="month-select"></select>
-
-        <label for="year-select">Year</label>
-        <select id="year-select"></select>
+      <div class="controls">
+        <div>
+          <label for="month-select">Month</label>
+          <select id="month-select"></select>
+        </div>
+        <div>
+          <label for="year-select">Year</label>
+          <select id="year-select"></select>
+        </div>
       </div>
 
-      <div>
+      <div class="navigation">
         <button id="prev-btn">Previous</button>
         <button id="next-btn">Next</button>
       </div>

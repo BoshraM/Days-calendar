@@ -27,7 +27,7 @@
 
 button,
 select {
-  min-height: max-content;
+  min-height: 35px;
   min-width: 66px;
   padding: 5px;
 }
