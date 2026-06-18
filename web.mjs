@@ -116,16 +116,16 @@ function renderCalendar() {
 
     cell.classList.add("day");
 
-    const event = monthEvents.find((e) => e.date === day);
+		const events = monthEvents.filter((e) => e.date === day);
 
-    if (event) {
-      cell.innerHTML = `
-      <div>${day}</div>
-      <div>${event.name}</div>
-    `;
-    } else {
-      cell.textContent = day;
-    }
+		if (events.length > 0) {
+			cell.innerHTML = `
+				<div>${day}</div>
+				${events.map(e => `<div>${e.name}</div>`).join("")}
+			`;
+		} else {
+			cell.textContent = day;
+		}
 
     calendar.appendChild(cell);
   }
