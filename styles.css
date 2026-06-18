@@ -1,18 +1,41 @@
 #weekdays,
 #calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
 }
 
 #weekdays div {
-    font-weight: bold;
-    text-align: center;
-    padding: 5px;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px;
 }
 
 .day {
-    border: 1px solid black;
-    min-height: 80px;
-    padding: 5px;
+  border: 1px solid black;
+  min-height: 80px;
+  padding: 5px;
+}
+
+.controls,
+.navigation {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+button,
+select {
+  min-height: max-content;
+  min-width: 66px;
+  padding: 5px;
+}
+
+button {
+  margin: 8px;
+}
+
+select {
+  margin: 8px;
 }
